@@ -8,6 +8,13 @@
 #define ERR_PASSWORD_REQUIRED 1
 
 #define ITSOK 9999
+
+int InitGsm();
+String ReadAllSms();
+String WriteSms(String da, String message);
+String ReadThings();
+
+
 SoftwareSerial mySerial(2, 3);
 
 void setup() {
@@ -61,5 +68,26 @@ int InitGsm() {
   }
 
   
+    
   return ITSOK;
+}
+
+String ReadAllSms() {
+  mySerial.println("AT+CMGL=\"ALL\", 1");
+  delay(25);
+  return ReadThings();
+}
+
+String WriteSms(String da, String message) {
+  String answer;
+
+  mySerial.println("AT+CMGS=\"%s\"\r", da);
+  delay(25);  
+  if(answer.indexOf(">") == -1) {
+    return ERR_NO_OK;
+  } else {
+    mySerial.println("%s%c", message, 0x1A);
+    delay(25);
+    return ReadThings;
+  }
 }
