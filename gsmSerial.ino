@@ -1,20 +1,14 @@
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <SoftwareSerial.h>
-
-//#define Reset_AVR() wdt_enable(WDTO_30MS); while(1) {} //definizione della funzione reset
-
-#define TYPICAL_DELAY 25
-
-#define ERR_NO_OK 0
-#define ERR_PASSWORD_REQUIRED 1
-
-#define ITSOK 9999
+#include "sim800.h"
+#include "gsmSerial.h"
 
 int InitGsm();
 String ReadAllSms();
 int WriteSms(String da, String message);
 String ReadThings();
+void ManualComunication();
 
 typedef struct Gestore{  
   String name;
@@ -67,13 +61,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while(mySerial.available()) {
-    Serial.write(mySerial.read());
-  }
-  
-  while(Serial.available()) {
-    mySerial.write(Serial.read());
-  }
+  ManualComunication();
 }
 
 String ReadThings() {
@@ -163,5 +151,33 @@ int WriteSms(String da, String message) {
     } else {
       return sizeof(message);
     }
+  }
+}
+
+void Retry() {
+  mySerial.println("A/");
+  delay(TYPICAL_DELAY);
+}
+
+int Answer() {
+  String answer;
+  
+  mySerial.println("ATA");
+  delay(TYPICAL_DELAY);
+  answer = ReadThings();
+  if(answer.indexOf("OK") != -1) {
+    return OK
+  } else if(answer.indexOf("CONNECT") != -1) {
+    return CONNECT
+  } else return ERR_NO_OK;
+}
+
+void ManualComunication() {
+  while(mySerial.available()) {
+    Serial.write(mySerial.read());
+  }
+  
+  while(Serial.available()) {
+    mySerial.write(Serial.read());
   }
 }
