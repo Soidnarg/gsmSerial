@@ -32,4 +32,10 @@
 #define DTR_FUNC_MODE                     "AT&D"
 #define FACTORY_DEF_CONFIG                "AT&F"
 #define DISP_CURR_CONFIG                  "AT&V"
-#define STORE_
+#define STORE_ACTIVE_PROFILE              "AT&W"
+#define REQ_COMPLETE_TA_CAPABILITIES_LIST "AT+GCAP"
+#define REQ_MANUFACT_ID                   "AT+GMI"
+#define REQ_TA_MODEL_ID                   "AT+GMM"
+#define REQ_TA_REV_ID_SOFT_RELEASE        "AT+GMR"
+#define REQ_GLOBAL_OBJ_ID                 "AT+GOI"
+#define REQ_TA_IMEI                       "AT+GSN"
